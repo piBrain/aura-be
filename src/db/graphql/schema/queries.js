@@ -7,6 +7,7 @@ export default () => [
       requestDatumRecordsByRange(id: Int!, range: Int!): [Site!]
       firstNonValidatedRecord: Site
       getSecurityQuestions( email: String!, nonce: String! ): JSON
+      returnProfileInfo( nonce: String! ): JSON
     }`,
     Site
   ]
