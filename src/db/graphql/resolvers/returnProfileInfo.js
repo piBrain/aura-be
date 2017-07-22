@@ -15,6 +15,7 @@ const executeReturnProfileInfo = async ({ nonce }) => {
   }
 }
 
+
 const returnProfileInfo = (_, args, context) => {
   console.log('returnProfileInfo')
   return executeReturnProfileInfo(args)

@@ -15,6 +15,7 @@ const executeUpdateProfileInfo = async ({ nonce, info }) => {
     console.error(err)
     return { err: true, response: err.message }
   }
+
 }
 
 const updateProfileInfo = (_, args, context) => {
