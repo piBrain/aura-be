@@ -22,6 +22,7 @@ export default () => [
     verifyNewsletterEmail( url: String!, email: String!, firstName: String!, lastName: String, timestamp: DateTime! ): JSON
     forgotPassword(nonce: String!, secQuestionResponse1: String!, secQuestionResponse2: String!): JSON
     resetPassword(nonce: String!, resetToken: String!, newPassword: String!): JSON
+    updateProfileInfo(nonce: String!, info: JSON!): JSON
   }`,
   SiteRequestData
 ]
