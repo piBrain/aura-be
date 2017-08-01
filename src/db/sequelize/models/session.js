@@ -7,17 +7,15 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true,
       primaryKey: true,
     },
-    user_id: DataTypes.INTEGER,
+    userId: { type: DataTypes.INTEGER, field: 'user_id' },
     nonce: DataTypes.STRING,
-    passwordResetAttempts: DataTypes.STRING,
-    lastPasswordResetAttempt: DataTypes.DATE,
-    suppliedResetEmail: DataTypes.STRING,
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
-  });
+    passwordResetAttempts: { type: DataTypes.STRING, field: 'password_reset_attempts' },
+    lastPasswordResetAttempt: { type: DataTypes.DATE, field: 'last_password_reset_attempt' },
+    suppliedResetEmail: { type: DataTypes.STRING, field: 'supplied_reset_email' },
+  }, { underscored: true });
+
+  Session.associate = (models) => {
+    Session.belongsTo(models.User)
+  }
   return Session;
 };

@@ -1,13 +1,6 @@
-import SiteRequestData from './site_request_data'
-
 export default () => [
   `type Mutation {
-    createSiteRequestData(
-      siteId: Int!,
-      requestData: JSON!
-    ): SiteRequestData
     newsletterSignUp( url: String!, email: String!, firstName: String!, lastName: String! ): JSON
-    prioritizeDomain( domain: String): String,
     signUpUser(
       firstName: String!,
       lastName: String!,
@@ -24,5 +17,4 @@ export default () => [
     resetPassword(nonce: String!, resetToken: String!, newPassword: String!): JSON
     updateProfileInfo(nonce: String!, info: JSON!): JSON
   }`,
-  SiteRequestData
 ]
