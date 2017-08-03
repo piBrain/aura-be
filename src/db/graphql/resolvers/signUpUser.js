@@ -3,28 +3,29 @@ import authHandler from './authHandler'
 import shortId from 'shortid'
 import { mailClient, emailDefaults } from '../../../lib/mail_client'
 
-const executeSignUpUser = (args) => {
+const executeSignUpUser = async (args) => {
   console.log('executeSignUpUser')
   let nonce = shortId.generate()
   let date = new Date()
   date.setHours(date.getHours()+1)
-  return db.User.findOrCreate(
-    {
-      where: {
-        $or: {
+  try {
+    let user, newRecord
+    [user, newRecord] = await db.User.findOrCreate(
+      {
+        where: {
+          $or: {
+            activationNonce: nonce,
+            email: args.email
+          }
+        },
+        defaults: {
+          ...args,
+          active: false,
           activationNonce: nonce,
-          email: args.email
+          activationExpiry: date,
         }
       },
-      defaults: {
-        ...args,
-        active: false,
-        activationNonce: nonce,
-        activationExpiry: date,
-      }
-    },
-  ).then(async (users, newRecord) => {
-    let user = users[0]
+    )
     if(user.active) {
       return { err: true, response: 'There is already an active user with that email.' }
     }
@@ -32,15 +33,12 @@ const executeSignUpUser = (args) => {
       user.set('activationExpiry', date)
       user.set('activationNonce', nonce)
     }
-    return user.save().then( async () => {
-      return await sendMail(args.url, args.email, nonce)
-    }).catch((err) => {
-      return { err: true, response: err.message }
-    })
-  }).catch((err) => {
-    console.error(`SEQUELIZE ERROR ${err}`)
+    await user.save()
+    return await sendMail(args.url, args.email, nonce)
+  } catch(err) {
+    console.log(err)
     return { err: true, response: err.message }
-  })
+  }
 }
 
 const sendMail = async (preUrl, email, nonce) => {

@@ -16,7 +16,7 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     })
-    queryInterface.addColumn('Users', 'sec_question_Response_2', {
+    queryInterface.addColumn('Users', 'sec_question_response_2', {
       type: Sequelize.STRING,
       allowNull: false,
     })

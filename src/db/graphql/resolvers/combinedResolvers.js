@@ -8,8 +8,12 @@ import forgotPassword from './forgotPassword'
 import resetPassword from './resetPassword'
 import returnProfileInfo from './returnProfileInfo'
 import updateProfileInfo from './updateProfileInfo'
+import createTeam from './createTeam'
+import getTeams from './getTeams'
+import GraphQLJSON from 'graphql-type-json'
+import { GraphQLDateTime } from 'graphql-iso-date'
 
-const queries = { Query: { getSecurityQuestions, returnProfileInfo } }
+const queries = { Query: { getSecurityQuestions, returnProfileInfo, getTeams } }
 const mutations = {
   Mutation: {
     signUpUser,
@@ -18,8 +22,12 @@ const mutations = {
     verifyNewsletterEmail,
     forgotPassword,
     resetPassword,
-    updateProfileInfo
+    updateProfileInfo,
+    createTeam
   }
 }
-
-export default merge({}, queries, mutations)
+const scalarResolvers = {
+  JSON: GraphQLJSON,
+  DateTime: GraphQLDateTime
+}
+export default merge({}, queries, mutations, scalarResolvers)
