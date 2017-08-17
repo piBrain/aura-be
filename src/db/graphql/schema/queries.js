@@ -1,13 +1,7 @@
-import RequestDatum from './request_datum'
-import Site from './site'
-
 export default () => [
     `type Query {
-      singleRequestDataRecord(id: Int!): Site
-      requestDatumRecordsByRange(id: Int!, range: Int!): [Site!]
-      firstNonValidatedRecord: Site
       getSecurityQuestions( email: String!, nonce: String! ): JSON
       returnProfileInfo( nonce: String! ): JSON
-    }`,
-    Site
+      getTeams( nonce: String! ): JSON
+    }`
   ]

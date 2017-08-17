@@ -5,9 +5,9 @@ const executeUpdateProfileInfo = async ({ nonce, info }) => {
     let session = await db.Session.findOne(
       { where: { nonce } },
     )
-    let user = await db.User.findOne(
-      { where: { id: session.user_id } }
-    )
+    if(!session) { return { err: true, response: 'Whoops! Something went wrong.' } }
+    let user = await session.getUser()
+    if(!user) { return { err: true, response: 'Whoops! Something went wrong.' } }
     user.set(info)
     await user.save()
     return { err: false, response: 'Success!' }

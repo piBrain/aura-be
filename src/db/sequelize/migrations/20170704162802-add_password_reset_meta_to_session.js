@@ -2,16 +2,16 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    queryInterface.addColumn('Sessions', 'passwordResetAttempts', {
+    queryInterface.addColumn('Sessions', 'password_reset_attempts', {
       type: Sequelize.INTEGER,
       allowNull: false,
       defaultValue: 0,
     })
-    queryInterface.addColumn('Sessions', 'lastPasswordResetAttempt', {
+    queryInterface.addColumn('Sessions', 'last_password_reset_attempt', {
       type: Sequelize.DATE,
       allowNull: true,
     })
-    queryInterface.addColumn('Sessions', 'suppliedResetEmail', {
+    queryInterface.addColumn('Sessions', 'supplied_reset_email', {
       type: Sequelize.STRING,
       allowNull: true,
       unique: true,
@@ -19,8 +19,8 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    queryInterface.removeColumn('Sessions', 'passwordResetAttempts')
-    queryInterface.removeColumn('Sessions', 'lastPasswordResetAttempt')
-    queryInterface.removeColumn('Sessions', 'suppliedResetEmail')
+    queryInterface.removeColumn('Sessions', 'password_reset_attempts')
+    queryInterface.removeColumn('Sessions', 'last_password_reset_attempt')
+    queryInterface.removeColumn('Sessions', 'supplied_reset_email')
   }
 };

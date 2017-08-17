@@ -7,12 +7,12 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
     })
-    queryInterface.addColumn('Users', 'activationNonce', {
+    queryInterface.addColumn('Users', 'activation_nonce', {
         type: Sequelize.STRING,
         allowNull: true,
         unique: true,
     })
-    queryInterface.addColumn('Users', 'activationExpiry', {
+    queryInterface.addColumn('Users', 'activation_expiry', {
         type: Sequelize.DATE,
         allowNull: true
     })
@@ -20,7 +20,7 @@ module.exports = {
 
   down: function (queryInterface, Sequelize) {
     queryInterface.removeColumn('Users', 'active')
-    queryInterface.removeColumn('Users', 'activationNonce')
-    queryInterface.removeColumn('Users', 'activationExpiry')
+    queryInterface.removeColumn('Users', 'activation_nonce')
+    queryInterface.removeColumn('Users', 'activation_expiry')
   }
 };

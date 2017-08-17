@@ -6,12 +6,12 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     })
-    queryInterface.addColumn('Users', 'signInType', {
+    queryInterface.addColumn('Users', 'sign_in_type', {
       type: Sequelize.STRING,
       allowNull: false,
       defaultValue: 'password'
     })
-    queryInterface.addColumn('Users', 'inPasswordReset', {
+    queryInterface.addColumn('Users', 'in_password_reset', {
       type: Sequelize.BOOLEAN,
       allowNull: false,
       defaultValue: false,
@@ -20,7 +20,7 @@ module.exports = {
 
   down: function (queryInterface, Sequelize) {
     queryInterface.removeColumn('Users', 'password')
-    queryInterface.removeColumn('Users', 'signInType')
-    queryInterface.removeColumn('Users', 'inPasswordReset')
+    queryInterface.removeColumn('Users', 'sign_in_type')
+    queryInterface.removeColumn('Users', 'in_password_reset')
   }
 };

@@ -63,8 +63,8 @@ async function authenticationHandler( req, res ) {
     }, null, 2))
     if(process.env.GSUITE_DOMAIN == payload['hd']) {
       const user = (await db.User.findOrCreate({ where: { email: payload['email'], token: payload['sub']} }))[0]
-      const dstroyed_sessions = await db.Session.destroy({ where: { user_id: user.id } })
-      const session = await db.Session.create({ nonce: generateNonceString(), user_id: user.id})
+      const dstroyed_sessions = await db.Session.destroy({ where: { userId: user.id } })
+      const session = await db.Session.create({ nonce: generateNonceString(), userId: user.id})
       res.write(session.nonce)
       res.end()
       return
