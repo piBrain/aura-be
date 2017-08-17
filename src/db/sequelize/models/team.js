@@ -8,6 +8,10 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true,
       primaryKey: true,
     },
+    active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    }
   }, { underscored: true });
 
   Team.associate = (models) => {

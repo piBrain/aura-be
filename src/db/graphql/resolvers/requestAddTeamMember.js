@@ -10,6 +10,7 @@ const executeRequestAddTeamMember = async ({ nonce, url, targetUser, teamName })
     if(!user) { return { err: true, response: 'Whoops! Something went wrong.' } }
     const teams = await user.getTeams()
     const team = teams.filter((team) => (team.name == teamName))[0]
+    if(team.active == false) { return { err: true, response: 'Team is not active!' } }
     const newTeamMember = await db.User.findOne({ where: {email: targetUser} })
     if(!newTeamMember) { return { err: true, response: 'Can\'t find a user with that email' } }
     const activationNonce = shortId.generate()
