@@ -15,6 +15,23 @@ const createMail = ({ from, to, subject, content, customArgs }, html=false) => {
   return mailObject
 }
 
+const sendMail = async (response, { to, subject, content, type, from } = { from: 'aura@pibrain.io' }) => {
+  try {
+    const sent = await send(createMail({
+      from,
+      to,
+      subject,
+      content,
+      customArgs: { type },
+    }, true))
+    return { err: false, response  }
+  } catch(err) {
+    console.error(err)
+    console.error(err.message, err.response.status, err.response.body, err.response.headers)
+    return { err: true, response: err.message }
+  }
+}
+
 const addNewContact = (fields, listId=null) => {
   let request = configuredClient.emptyRequest({
     method: 'POST',
@@ -35,14 +52,12 @@ const addNewContact = (fields, listId=null) => {
     try {
       return await configuredClient.API(request)
     } catch(err) {
-      console.log(response.statusCode)
-      console.log(response.body)
-      console.log(response.headers)
+      console.error(err)
     }
   })
 }
 
-const sendMail = (mail) => {
+const send = (mail) => {
   let request = configuredClient.emptyRequest({
     method: 'POST',
     path: '/v3/mail/send',
@@ -52,7 +67,3 @@ const sendMail = (mail) => {
 }
 
 export const mailClient = { createMail, sendMail, addNewContact }
-
-export const emailDefaults = {
-  from: 'aura@pibrain.io'
-}

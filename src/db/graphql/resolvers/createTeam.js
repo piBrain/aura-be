@@ -1,5 +1,5 @@
-
 import db from '../../sequelize/models/db_connection'
+import shortId from 'shortid'
 
 const executeCreateTeam = async ({ nonce, name }) => {
   try {
@@ -8,8 +8,7 @@ const executeCreateTeam = async ({ nonce, name }) => {
     let user = await session.getUser()
     if(!user) { return { err: true, response: 'Whoops! Something went wrong.' } }
     let team = await db.Team.create({ name })
-    await team.addUser(user)
-    await user.addTeam(team)
+    await team.addUser(user, { through: { type: 'OWNER', active: true, activationNonce: shortId.generate() } })
     return { err: false, response: `Success ${name} was created!` }
   } catch(err) {
     console.error(err)

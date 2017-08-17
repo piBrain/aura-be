@@ -1,18 +1,20 @@
 import { mailClient, emailDefaults } from '../../../lib/mail_client'
 
-const executeNewsletterSignUp = async ({ url, email, firstName, lastName }) => {
-  const date = new Date()
-  date.setHours(date.getHours()+1)
-  const resendUrl = url + `?email=${email}&firstName=${firstName}&lastName=${lastName}&expiryTime=${date}`
+const executeNewsletterSignUp = async ({ url, email, firstName, lastName, organization } = { organization: '' }) => {
+  const unformattedDate = new Date()
+  unformattedDate.setHours(unformattedDate.getHours()+1)
+  const date = unformattedDate.toISOString()
+  const verifyUrl = url + `?newsletter=true&email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}&expiryTime=${encodeURIComponent(date)}&organization=${encodeURIComponent(organization)}`
+  const mail = {
+    from: 'content@pibrain.io',
+    to: email,
+    subject: 'Confirm piBrain Newsletter Signup',
+    content: `Please click <a href=${verifyUrl}>here</a> to confirm your newsletter subscription. <br />If you did not sign-up for this please contact us at support@pibrain.io`,
+    type: 'newsLetterSignupConfirmation',
+  }
+  const returnResponse = 'Success! Please check your e-mail to confirm your subscription to the piBrain newsletter, it will expire in 1 hour.'
   try {
-    await mailClient.sendMail(mailClient.createMail({
-      from: 'content@pibrain.io',
-      to: email,
-      subject: 'Confirm piBrain Newsletter Signup',
-      content: `Please click <a href=${resendUrl}>here</a> to confirm your newsletter subscription. <br />If you did not sign-up for this please contact us at support@pibrain.io`,
-      customArgs: { type: 'newsLetterSignupConfirmation' }
-    }, true))
-    return { err: false, response: 'Success! Please check your e-mail to confirm your subscription to the piBrain newsletter, it will expire in 1 hour.' }
+    return await mailClient.sendMail(returnResponse, mail)
   } catch(err) {
     console.log(err.message, err.response.status, err.response.body, err.response.headers)
     return { err: true, response: err.message }

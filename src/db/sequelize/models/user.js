@@ -76,7 +76,7 @@ module.exports = function(sequelize, DataTypes) {
 
   var User = sequelize.define('User', attributes, options);
   User.associate = (models) => {
-    User.belongsToMany(models.Team, { through: 'UserTeams' })
+    User.belongsToMany(models.Team, { through: models.UserTeam })
   }
   return User;
 };

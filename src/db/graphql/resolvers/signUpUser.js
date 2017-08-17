@@ -34,30 +34,21 @@ const executeSignUpUser = async (args) => {
       user.set('activationNonce', nonce)
     }
     await user.save()
-    return await sendMail(args.url, args.email, nonce)
+    const url = args.url + `?verify=${nonce}`
+    const email = {
+      email: args.email,
+      subject: 'Verify Aura User Account',
+      content: `Please click <a href=${url}>here</a> to verify your account and finish signing up. <br />Or copy and paste: ${args.url} into your address bar on your browser.<br/>If you did not sign-up for please contact us at aura+support@pibrain.io`,
+      type: 'auraUserSignUpConfirmation',
+    }
+    const returnResponse = `An email has been sent to ${args.email}, please click the link to confirm your account. It will expire 1 hour from now.` 
+    return await mailClient.sendMail(returnResponse, email)
   } catch(err) {
     console.log(err)
     return { err: true, response: err.message }
   }
 }
 
-const sendMail = async (preUrl, email, nonce) => {
-  try {
-    let url = preUrl + `?verify=${nonce}`
-    let sent = await mailClient.sendMail(mailClient.createMail({
-      ...emailDefaults,
-      to: email,
-      subject: 'Verify Aura User Account',
-      content: `Please click <a href=${url}>here</a> to verify your account and finish signing up. <br />Or copy and paste: ${url} into your address bar on your browser.<br/>If you did not sign-up for please contact us at aura+support@pibrain.io`,
-      customArgs: { type: 'auraUserSignUpConfirmation' },
-    }, true))
-    return { err: false, response: `An email has been sent to ${email}, please click the link to confirm your account. It will expire 1 hour from now.` }
-  } catch(err) {
-    console.log(err)
-    console.log(err.message, err.response.status, err.response.body, err.response.headers)
-    return { err: true, response: err.message }
-  }
-}
 
 const signUpUser = (_, args, context) => {
   console.log('signUpUser')
