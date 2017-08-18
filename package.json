@@ -51,8 +51,8 @@
   "scripts": {
     "build": "./node_modules/.bin/babel src --out-dir lib --source-maps --quiet",
     "debug": "NODE_ENV=local nodemon --inspect --require babel-core/register --require babel-polyfill local.js",
-    "deploy-production": "printf 'building...' && yarn build && if [ -e api.zip ]; then rm -f api.zip; fi && printf 'compressing...' && zip -qr api * && printf 'uploading...' && aws lambda update-function-code --function-name aura_data_api_prod --zip-file fileb://api.zip",
-    "db-init": "./node_modules/.bin/sequelize db:migrate",
+    "deploy-production": "printf 'building...' && yarn build && if [ -e api.zip ]; then rm -f api.zip; fi && printf 'compressing...' && zip -qr api * # && printf 'uploading...' && aws lambda update-function-code --function-name aura_be_prod --zip-file fileb://api.zip",
+    "db-init": "./node_modules/.bin/sequelize db:migrate --url $DB_URL",
     "local": "NODE_ENV=local nodemon --watch local.js --watch src --watch .babelrc --watch .sequelizerc --watch config.js --watch package.json local.js",
     "test": "jest --config jest-config.json",
     "import-debug": "NODE_ENV=local nodemon --inspect --require babel-core/register --require babel-polyfill ./import_data.js",
