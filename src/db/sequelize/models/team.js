@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
   }, { underscored: true });
 
   Team.associate = (models) => {
-    Team.belongsToMany(models.User, { through: 'UserTeams' })
+    Team.belongsToMany(models.User, { through: models.UserTeam })
   }
   return Team;
 };

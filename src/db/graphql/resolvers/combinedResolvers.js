@@ -10,20 +10,26 @@ import returnProfileInfo from './returnProfileInfo'
 import updateProfileInfo from './updateProfileInfo'
 import createTeam from './createTeam'
 import getTeams from './getTeams'
+import promoteMemberToAdmin from './promoteMemberToAdmin'
+import requestAddTeamMember from './requestAddTeamMember'
+import confirmAddTeamMember from './confirmAddTeamMember'
 import GraphQLJSON from 'graphql-type-json'
 import { GraphQLDateTime } from 'graphql-iso-date'
 
 const queries = { Query: { getSecurityQuestions, returnProfileInfo, getTeams } }
 const mutations = {
   Mutation: {
-    signUpUser,
-    verifyUserEmail,
-    newsletterSignUp,
-    verifyNewsletterEmail,
+    confirmAddTeamMember,
+    createTeam,
     forgotPassword,
+    newsletterSignUp,
+    requestAddTeamMember,
     resetPassword,
+    signUpUser,
     updateProfileInfo,
-    createTeam
+    verifyNewsletterEmail,
+    verifyUserEmail,
+    promoteMemberToAdmin,
   }
 }
 const scalarResolvers = {

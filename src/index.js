@@ -19,7 +19,7 @@ const qaApp = express()
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })
 
-const authClient = new ( new GoogleAuth ).OAuth2(process.env.GOOGLE_CLIENT_ID)
+const authClient = new(new GoogleAuth).OAuth2(process.env.GOOGLE_CLIENT_ID)
 
 const generateNonceString = () => {
   return base64url(crypto.randomBytes(64))

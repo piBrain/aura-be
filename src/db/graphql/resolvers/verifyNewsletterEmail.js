@@ -1,11 +1,11 @@
 import { mailClient, emailDefaults } from '../../../lib/mail_client'
 
-const executeVerifyNewsletterEmail = async ({ url, timestamp, email, firstName, lastName  }) => {
-  let resendUrl = `${url}?resend=true&type=newsletterSignUp&email=${email}&firstName=${firstName}&lastName=${lastName}`
+const executeVerifyNewsletterEmail = async ({ url, timestamp, email, firstName, lastName, organization}) => {
+  let resendUrl = `${url}?resend=true&type=newsletterSignUp&email=${email}&firstName=${firstName}&lastName=${lastName}&organization=${organization}`
   if((new Date()) > (new Date(timestamp))) {
     return { err: false, response: `Sorry, the link has expired. Click <a href=${resendUrl}>here</a> to resend.`, }
   }
-  try { await mailClient.addNewContact({email: email, first_name: firstName, last_name: lastName, }, process.env.SENDGRID_NEWSLETTER_LIST_ID ) }
+  try { await mailClient.addNewContact({email: email, first_name: firstName, last_name: lastName, organization: organization }, process.env.SENDGRID_NEWSLETTER_LIST_ID ) }
   catch(err) {
     if(Array.isArray(err)) {
       return handleErrArray(err)
