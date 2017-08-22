@@ -13,6 +13,8 @@ import getTeams from './getTeams'
 import promoteMemberToAdmin from './promoteMemberToAdmin'
 import requestAddTeamMember from './requestAddTeamMember'
 import confirmAddTeamMember from './confirmAddTeamMember'
+import deactivateTeam from './deactivateTeam'
+import reactivateTeam from './reactivateTeam'
 import GraphQLJSON from 'graphql-type-json'
 import { GraphQLDateTime } from 'graphql-iso-date'
 
@@ -21,8 +23,10 @@ const mutations = {
   Mutation: {
     confirmAddTeamMember,
     createTeam,
+    deactivateTeam,
     forgotPassword,
     newsletterSignUp,
+    reactivateTeam,
     requestAddTeamMember,
     resetPassword,
     signUpUser,

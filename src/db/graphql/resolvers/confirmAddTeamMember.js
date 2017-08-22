@@ -8,8 +8,9 @@ const executeConfirmAddTeamMember = async ({ nonce }) => {
     const session =  await db.Session.findOne({ where: { userId: userteam.userId } })
     if(!session) { return { err: true, response: 'Whoops! Something went wrong.' } }
     userteam.set('active', true)
-    await userteam.save()
     const team = await userteam.getTeam()
+    if(!team.active) { return { err: true, response: 'I\'m sorry that team is no longer active. Please contact the person who invited you to join for more information.' } }
+    await userteam.save()
     return { err: false, response: `Successfully joined ${team.name}` }
   } catch(err) {
     console.error(err)
