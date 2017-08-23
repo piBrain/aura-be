@@ -16,7 +16,7 @@ const configs = {
   },
 }
 
-const { NODE_ENV } = process.env
+const NODE_ENV = process.env.NODE_ENV || 'local'
 
 module.exports = () => {
   process.env = Object.assign(process.env, configs[NODE_ENV])
