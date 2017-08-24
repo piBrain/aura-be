@@ -1,4 +1,5 @@
 node_modules/
+linux_node_modules/
 .env
 front-end/bundle.js
 front-end/bundle.js.map

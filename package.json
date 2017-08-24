@@ -51,10 +51,14 @@
   "scripts": {
     "build": "./node_modules/.bin/babel src --out-dir lib --source-maps --quiet",
     "debug": "NODE_ENV=local nodemon --inspect --require babel-core/register --require babel-polyfill local.js",
-    "deploy-dev": "printf 'building...' && yarn build && if [ -e api.zip ]; then rm -f api.zip; fi && printf 'compressing...' && zip -qr api * && printf 'uploading...' && aws lambda update-function-code --function-name aura_be_dev --zip-file fileb://api.zip",
-    "deploy-prod": "printf 'building...' && yarn build && if [ -e api.zip ]; then rm -f api.zip; fi && printf 'compressing...' && zip -qr api * && printf 'uploading...' && aws lambda update-function-code --function-name aura_be_prod --zip-file fileb://api.zip",
+    "deploy-dev": "if [ -e native_node_modules ]; then rm -rf native_node_modules ; fi && mv node_modules native_node_modules && yarn linuxify-node-modules && yarn send-to-dev && mv node_modules linux_node_modules && mv native_node_modules node_modules",
+    "deploy-prod": "if [ -e native_node_modules ]; then rm -rf native_node_modules ; fi && mv node_modules native_node_modules && yarn linuxify-node-modules && yarn send-to-prod && mv node_modules linux_node_modules && mv native_node_modules node_modules",
     "db-init": "./node_modules/.bin/sequelize db:migrate --url $DB_URL",
+    "linuxify-node-modules": "if [ -e linux_node_modules ]; then mv linux_node_modules node_modules ; else docker run -v $PWD:/nodePackage -w /nodePackage --rm pibrain/amazonlinux-node:v6.10.3 /bin/bash -c '. /root/.nvm/nvm.sh && yarn reinstall' ; fi",
     "local": "NODE_ENV=local nodemon --watch local.js --watch src --watch .babelrc --watch .sequelizerc --watch config.js --watch package.json local.js",
+    "reinstall": "if [ -e node_modules ]; then echo 'deleting node_modules...' && echo '...' && rm -rf node_modules ; fi && echo 'installing node_modules...' && echo '...' && yarn install",
+    "send-to-dev": "printf 'building...' && yarn build && if [ -e api.zip ]; then rm -f api.zip; fi && printf 'compressing...' && zip -qr api * && printf 'uploading...' && aws lambda update-function-code --function-name aura_be_dev --zip-file fileb://api.zip",
+    "send-to-prod": "printf 'building...' && yarn build && if [ -e api.zip ]; then rm -f api.zip; fi && printf 'compressing...' && zip -qr api * && printf 'uploading...' && aws lambda update-function-code --function-name aura_be_prod --zip-file fileb://api.zip",
     "test": "jest --config jest-config.json",
     "import-debug": "NODE_ENV=local nodemon --inspect --require babel-core/register --require babel-polyfill ./import_data.js",
     "import-data": "node ./import_data.js"
